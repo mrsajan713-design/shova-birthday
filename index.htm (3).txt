@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Shova! 💖</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap');
+
+        body {
+            background: #fff5f8;
+            font-family: 'Poppins', sans-serif;
+            color: #8e4483;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin: 20px 0;
+            object-fit: cover;
+            background-color: #fce4ec;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #d81b60; margin: 0; text-align: center; }
+        .subtitle { font-size: 14px; margin-bottom: 30px; color: #ad1457; opacity: 0.8; text-align: center; }
+
+        .wishes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #fce4ec;
+            min-height: 110px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-content { display: none; font-size: 12px; color: #444; line-height: 1.4; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .cake-container {
+            margin-top: 40px;
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(216, 27, 96, 0.08);
+        }
+
+        .cake-img { width: 180px; margin-bottom: 20px; border-radius: 10px; }
+
+        .btn {
+            background: #d81b60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .letter {
+            margin-top: 40px;
+            padding: 30px;
+            background: white;
+            border: 2px dashed #f06292;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://i.ibb.co/4nmjqth1/IMG-20260115-202653-942.jpg" class="profile-img" alt="Shova">
+
+    <h1>Happy Birthday Shova!</h1>
+    <p class="subtitle">Click each card to reveal a special message 😍</p>
+
+    <audio id="music" loop>
+        <source src="https://files.catbox.moe/te3suf.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="wishes-grid">
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">✨<br>Reveal</div>
+            <div class="card-content">"May this year bring you endless joy and laughter. You make the world brighter!"</div>
+        </div>
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">💖<br>Reveal</div>
+            <div class="card-content">"To the most beautiful person, inside and out. Happy Birthday, Shova!"</div>
+        </div>
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">🌟<br>Reveal</div>
+            <div class="card-content">"Wishing you a day as special as you are. Enjoy every second!"</div>
+        </div>
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">🎂<br>Reveal</div>
+            <div class="card-content">"Another year of being amazing. Keep shining like the star you are!"</div>
+        </div>
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">🎁<br>Reveal</div>
+            <div class="card-content">"May all your dreams come true this year. You deserve the best!"</div>
+        </div>
+        <div class="card" onclick="reveal(this)">
+            <div class="card-front">🌸<br>Reveal</div>
+            <div class="card-content">"I'm so lucky to have you in my life. Happy Birthday, beautiful!"</div>
+        </div>
+    </div>
+
+    <div class="cake-container">
+        <h2 id="cake-text">Make a Wish! 🎂</h2>
+        <img src="https://cdn-icons-png.flaticon.com/512/3132/3132710.png" class="cake-img" id="cake-pic">
+        <br>
+        <button class="btn" id="cake-btn" onclick="cakeFlow()">Blow the Candles 🕯️</button>
+    </div>
+
+    <div class="letter" onclick="openLetter(this)">
+        💌 Click to open your special letter
+    </div>
+
+    <script>
+        function reveal(el) {
+            el.querySelector('.card-front').style.display = 'none';
+            el.querySelector('.card-content').style.display = 'block';
+            
+            // Audio starts playing on the very first click
+            var audio = document.getElementById('music');
+            audio.play().catch(function(error) {
+                console.log("Audio play failed, waiting for more interaction");
+            });
+            
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        let state = 0;
+        function cakeFlow() {
+            const pic = document.getElementById('cake-pic');
+            const btn = document.getElementById('cake-btn');
+            const txt = document.getElementById('cake-text');
+
+            if(state === 0) {
+                txt.innerText = "Now cut the cake!";
+                btn.innerText = "Click Cake to Cut It 🔪";
+                state = 1;
+            } else {
+                pic.src = "https://cdn-icons-png.flaticon.com/512/2682/2682444.png";
+                txt.innerText = "Enjoy your slice! 😋";
+                btn.style.display = "none";
+                confetti({ particleCount: 200, spread: 100 });
+            }
+        }
+
+        function openLetter(el) {
+            el.innerHTML = "<h2 style='font-family:Dancing Script'>Dear Shova,</h2><p>You are truly special. I hope this little surprise made you smile. Happy Birthday once more! ✨🥳</p>";
+            confetti({ particleCount: 150, spread: 70 });
+        }
+    </script>
+</body>
+</html>
